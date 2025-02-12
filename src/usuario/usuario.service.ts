@@ -25,15 +25,19 @@ export class UsuarioService {
     return null;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} usuario`;
+  async update(CPF: string, user: Partial<Usuario>):Promise<Partial<Usuario>> {
+
+    const userFinded = await this.repository.findOneBy({CPF})
+
+    if(!userFinded) throw new Error("usuário não existe.")
+
+    await this.repository.update(CPF,user);
+
+    const updated = await this.repository.findOneBy({CPF})
+    
+    const {senha, ...dados} = updated
+
+    return dados
   }
 
-  update(id: number, usuario: Partial<Usuario>) {
-    return `This action updates a #${id} usuario`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} usuario`;
-  }
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
 import { UsuarioService } from './usuario.service';
 import { Usuario } from './usuario.entity';
 
@@ -16,18 +16,8 @@ export class UsuarioController {
     return this.usuarioService.login(user)
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usuarioService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() usuario: Partial<Usuario>) {
-    return this.usuarioService.update(+id, usuario);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usuarioService.remove(+id);
+  @Put('atualizarSenha/:cpf')
+  update(@Param('cpf') CPF:string, @Body() user: Partial<Usuario>): Promise<Partial<Usuario>> {
+    return this.usuarioService.update(CPF, user);
   }
 }
